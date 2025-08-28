@@ -1,9 +1,15 @@
 import { useGetBorrowSummaryQuery } from "@/redux/api/rtkApi";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
+interface BorrowSummary {
+  book: { title: string; isbn: string };
+  totalQuantity: number;
+}
+
+
 const BorrowSummary = () => {
-  const { data: response, isLoading, isError } = useGetBorrowSummaryQuery();
-  const data = response?.data;
+const { data: response, isLoading, isError } = useGetBorrowSummaryQuery();
+const data = (response as unknown as { data: BorrowSummary[] })?.data;
 
   if (isLoading) return <p className="text-center py-4">Loading borrow summary...</p>;
   if (isError) return <p className="text-center py-4 text-red-500">Failed to load borrow summary.</p>;

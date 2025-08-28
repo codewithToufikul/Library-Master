@@ -21,3 +21,8 @@ export interface IBook {
   updatedAt?: string;       // Optional: timestamp from backend
 }
 
+
+// API response সবসময় {"data": IBook}
+export interface BookResponse {
+  data: IBook;
+}

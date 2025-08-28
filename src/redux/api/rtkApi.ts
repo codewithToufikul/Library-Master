@@ -12,15 +12,28 @@ interface BorrowSummary {
   totalBorrowed: number;
 }
 
+// যখন API `{ data: IBook }` ফরম্যাটে ফেরত দেয়
+interface BookResponse {
+  data: IBook;
+}
+
+// যখন API `{ data: IBook[], meta: {...} }` ফরম্যাটে ফেরত দেয়
+interface BooksResponse {
+  data: IBook[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+  };
+}
+
 export const rtkApi = createApi({
   reducerPath: "rtkApi",
   baseQuery: fetchBaseQuery({ baseUrl: "https://library-api-black.vercel.app/api" }),
   tagTypes: ["Books", "Borrows"],
   endpoints: (builder) => ({
-    getBooks: builder.query<
-      { data: IBook[]; meta: any },
-      { page?: number; limit?: number } | void
-    >({
+    // ✅ Get All Books
+    getBooks: builder.query<BooksResponse, { page?: number; limit?: number } | void>({
       query: (params) => {
         const q = params
           ? `?page=${params.page || 1}&limit=${params.limit || 20}`
@@ -39,12 +52,14 @@ export const rtkApi = createApi({
           : [{ type: "Books", id: "LIST" }],
     }),
 
-    getBook: builder.query<IBook, string>({
+    // ✅ Get Single Book
+    getBook: builder.query<BookResponse, string>({
       query: (id) => `/books/${id}`,
-      providesTags: (result, error, id) => [{ type: "Books", id }],
+      providesTags: (_, __, id) => [{ type: "Books", id }],
     }),
 
-    createBook: builder.mutation<IBook, Partial<IBook>>({
+    // ✅ Create Book
+    createBook: builder.mutation<BookResponse, Partial<IBook>>({
       query: (body) => ({
         url: "/books",
         method: "POST",
@@ -53,25 +68,28 @@ export const rtkApi = createApi({
       invalidatesTags: [{ type: "Books", id: "LIST" }],
     }),
 
-    updateBook: builder.mutation<IBook, { id: string; body: Partial<IBook> }>({
+    // ✅ Update Book
+    updateBook: builder.mutation<BookResponse, { id: string; body: Partial<IBook> }>({
       query: ({ id, body }) => ({ url: `/books/${id}`, method: "PUT", body }),
-      invalidatesTags: (result, error, { id }) => [
+      invalidatesTags: (_, __, { id }) => [
         { type: "Books", id },
         { type: "Books", id: "LIST" },
       ],
     }),
 
+    // ✅ Delete Book
     deleteBook: builder.mutation<{ success: boolean }, string>({
       query: (id) => ({
         url: `/books/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: (result, error, id) => [
+      invalidatesTags: (_, __, id) => [
         { type: "Books", id },
         { type: "Books", id: "LIST" },
       ],
     }),
 
+    // ✅ Borrow Book
     borrowBook: builder.mutation<
       BorrowResponse,
       { bookId: string; quantity: number; dueDate: string }
@@ -87,6 +105,7 @@ export const rtkApi = createApi({
       ],
     }),
 
+    // ✅ Borrow Summary
     getBorrowSummary: builder.query<BorrowSummary[], void>({
       query: () => `/borrow`,
       providesTags: [{ type: "Borrows", id: "SUMMARY" }],

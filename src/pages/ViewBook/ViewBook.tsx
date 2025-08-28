@@ -1,10 +1,12 @@
 import { useGetBookQuery } from "@/redux/api/rtkApi";
+import type { IBook } from "@/types";
 import { useParams } from "react-router";
 
 const ViewBook = () => {
   const { bookId } = useParams<{ bookId: string }>();
-  const { data, isLoading, isError } = useGetBookQuery(bookId || "");
+  const { data: response, isLoading, isError } = useGetBookQuery(bookId!);
 
+  // Loading state
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -13,18 +15,8 @@ const ViewBook = () => {
     );
   }
 
-  if (isError) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-red-600 mb-2">Error Loading Book</h2>
-          <p className="text-gray-600">Unable to fetch book details. Please try again later.</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!data?.data) {
+  // Error / Not found state
+  if (isError || !response?.data) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="text-center">
@@ -35,9 +27,15 @@ const ViewBook = () => {
     );
   }
 
-  const book = data.data;
-  const formattedCreatedAt = new Date(book.createdAt).toLocaleDateString();
-  const formattedUpdatedAt = new Date(book.updatedAt).toLocaleDateString();
+  const book: IBook = response.data;
+
+const formattedCreatedAt = book.createdAt
+  ? new Date(book.createdAt).toLocaleDateString()
+  : "N/A";
+
+const formattedUpdatedAt = book.updatedAt
+  ? new Date(book.updatedAt).toLocaleDateString()
+  : "N/A";
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white">
@@ -45,18 +43,18 @@ const ViewBook = () => {
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-gray-900 mb-2">{book.title}</h1>
         <p className="text-xl text-gray-600 mb-4">by {book.author}</p>
-        
+
         {/* Availability Status */}
         <div className="flex items-center gap-4 mb-4">
-          <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-            book.available 
-              ? 'bg-green-100 text-green-800' 
-              : 'bg-red-100 text-red-800'
-          }`}>
-            {book.available ? 'Available' : 'Not Available'}
+          <span
+            className={`px-3 py-1 rounded-full text-sm font-medium ${
+              book.available ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+            }`}
+          >
+            {book.available ? "Available" : "Not Available"}
           </span>
           <span className="text-sm text-gray-500">
-            {book.copies} {book.copies === 1 ? 'copy' : 'copies'} available
+            {book.copies} {book.copies === 1 ? "copy" : "copies"} available
           </span>
         </div>
 
@@ -68,8 +66,6 @@ const ViewBook = () => {
 
       {/* Main Content Grid */}
       <div className="grid md:grid-cols-3 gap-8">
-
-
         {/* Book Details */}
         <div className="md:col-span-2 space-y-6">
           {/* Description */}

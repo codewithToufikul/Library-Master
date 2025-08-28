@@ -26,14 +26,20 @@ export const Home = () => {
       try {
         await deleteBook(bookId).unwrap();
         Swal.fire("Deleted!", "Book has been deleted.", "success");
-      } catch (error) {
-        Swal.fire("Error!", "Failed to delete the book.", "error");
-      }
+      } catch (error: unknown) {
+  if (error instanceof Error) {
+    Swal.fire("Error!", error.message, "error");
+  } else {
+    Swal.fire("Error!", "Failed to delete the book.", "error");
+  }
+}
+
     }
   };
 
   return (
     <div>
+        <h1 className=" text-2xl underline py-3 mb-4">All Books</h1>
       <Table>
         <TableHeader>
           <TableRow>

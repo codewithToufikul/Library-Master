@@ -32,8 +32,8 @@ const Navbar: React.FC = () => {
                 to="/all-books"
                 className={({ isActive }) =>
                   isActive
-                    ? "bg-white bg-opacity-25 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-lg transform scale-105 transition-all duration-300"
-                    : "text-white hover:bg-white hover:bg-opacity-20 hover:text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105"
+                    ? "bg-white bg-opacity-25  px-4 py-2 rounded-lg text-sm font-medium shadow-lg transform scale-105 transition-all duration-300"
+                    : "text-white hover:bg-white hover:bg-opacity-20 hover:text-black px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105"
                 }
               >
                 All Books
@@ -42,8 +42,8 @@ const Navbar: React.FC = () => {
                 to="/add-book"
                 className={({ isActive }) =>
                   isActive
-                    ? "bg-white bg-opacity-25 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-lg transform scale-105 transition-all duration-300"
-                    : "text-white hover:bg-white hover:bg-opacity-20 hover:text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105"
+                    ? "bg-white bg-opacity-25 px-4 py-2 rounded-lg text-sm font-medium shadow-lg transform scale-105 transition-all duration-300"
+                    : "text-white hover:bg-white hover:bg-opacity-20 hover:text-black px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105"
                 }
               >
                 Add Book
@@ -52,8 +52,8 @@ const Navbar: React.FC = () => {
                 to="/borrow-summary"
                 className={({ isActive }) =>
                   isActive
-                    ? "bg-white bg-opacity-25 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-lg transform scale-105 transition-all duration-300"
-                    : "text-white hover:bg-white hover:bg-opacity-20 hover:text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105"
+                    ? "bg-white bg-opacity-25  px-4 py-2 rounded-lg text-sm font-medium shadow-lg transform scale-105 transition-all duration-300"
+                    : "text-white hover:bg-white hover:bg-opacity-20 hover:text-black px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105"
                 }
               >
                 Borrow Summary
@@ -90,7 +90,7 @@ const Navbar: React.FC = () => {
             to="/all-books"
             className={({ isActive }) =>
               isActive
-                ? "bg-white bg-opacity-25 text-white block px-4 py-3 rounded-lg text-base font-medium shadow-lg transform translate-x-2 transition-all duration-200"
+                ? "bg-white bg-opacity-25  block px-4 py-3 rounded-lg text-base font-medium shadow-lg transform translate-x-2 transition-all duration-200"
                 : "text-white hover:bg-white hover:bg-opacity-20 block px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 transform hover:translate-x-2"
             }
             onClick={() => setIsMenuOpen(false)}
@@ -101,7 +101,7 @@ const Navbar: React.FC = () => {
             to="/add-book"
             className={({ isActive }) =>
               isActive
-                ? "bg-white bg-opacity-25 text-white block px-4 py-3 rounded-lg text-base font-medium shadow-lg transform translate-x-2 transition-all duration-200"
+                ? "bg-white bg-opacity-25  block px-4 py-3 rounded-lg text-base font-medium shadow-lg transform translate-x-2 transition-all duration-200"
                 : "text-white hover:bg-white hover:bg-opacity-20 block px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 transform hover:translate-x-2"
             }
             onClick={() => setIsMenuOpen(false)}
